@@ -280,6 +280,8 @@ class TaskSet(object):
             except StopLocust:
                 raise
             except GreenletExit:
+                if hasattr(self, "on_quit"):
+                    self.on_quit()
                 raise
             except Exception as e:
                 events.locust_error.fire(locust_instance=self, exception=e, tb=sys.exc_info()[2])
